@@ -57,10 +57,10 @@ int main()
 {
     int arr[] = { 7, 3, 2 ,8 ,1 ,5, 6, 9, 3, 0 ,4, 5 };
     int n = 12;
-    cout << "Vector intial: ";
+    cout << "Initial array: ";
     printArray(arr, n);
     binaryInsertionSort(arr, n);
-    cout << "Vector dupa sortare: ";
+    cout << "Array after sorting: ";
     printArray(arr, n);
 
     return 0;
