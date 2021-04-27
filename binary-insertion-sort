@@ -1,0 +1,67 @@
+#include <iostream>
+
+using namespace std;
+
+int binarySearch(int arr[], int x, int low, int high)
+{
+    if (high <= low)
+    {
+        if (x > arr[low])
+        {
+            return low + 1;
+        }
+        else return low;
+    }
+
+    int middle = (low + high) / 2;
+    if (arr[middle] == x)
+    {
+        return middle;
+    }
+    if (x > arr[middle])
+    {
+        return binarySearch(arr, x, middle + 1, high);
+    }
+    return binarySearch(arr, x, low, middle - 1);
+}
+
+void binaryInsertionSort(int arr[], int n)
+{
+    for (int i = 1; i < n; i++)
+    {
+        int j = i - 1;
+        int aux = arr[i];
+
+        int location = binarySearch(arr, aux, 0, j);
+
+
+        while (j >= location)
+        {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+        arr[j + 1] = aux;
+    }
+}
+
+void printArray(int arr[], int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+}
+
+int main()
+{
+    int arr[] = { 7, 3, 2 ,8 ,1 ,5, 6, 9, 3, 0 ,4, 5 };
+    int n = 12;
+    cout << "Vector intial: ";
+    printArray(arr, n);
+    binaryInsertionSort(arr, n);
+    cout << "Vector dupa sortare: ";
+    printArray(arr, n);
+
+    return 0;
+}
