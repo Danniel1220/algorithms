@@ -1,0 +1,65 @@
+#include <iostream>
+
+using namespace std;
+
+int n, m;
+int caps[1001][1001], flow[1001][1001];
+int from[1001], visited[1001];
+
+bool DFS(int node)
+{
+    if (node == n) return true;
+    for (int i = 1; i <= n; ++i) {
+        if (i == node || visited[i] == true) continue;
+        if (flow[node][i] < caps[node][i]) {
+            from[i] = node;
+            visited[i] = true;
+            if (DFS(i)) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+int main()
+{
+    cout << "nodes = "; cin >> n;
+    cout << "edges = "; cin >> m;
+
+    for (int i = 0; i < m; ++i) {
+        int a, b, cap;
+
+        cout << "edge start = "; cin >> a;
+        cout << "edge end = "; cin >> b;
+        cout << "capacity = "; cin >> cap;
+
+        caps[a][b] += cap;
+        caps[b][a] += cap;
+        flow[b][a] += cap;
+    }
+
+    // 1 = start, n = final
+    from[1] = -1;
+    visited[1] = true;
+    int total_flow = 0;
+    while (DFS(1)) {
+        for (int i = 2; i <= n; ++i) visited[i] = false;
+
+        int node = n, mn_cap = caps[from[node]][node] - flow[from[node]][node];
+        while (from[node] != -1) {
+            mn_cap = min(mn_cap, caps[from[node]][node] - flow[from[node]][node]);
+            node = from[node];
+        }
+        node = n;
+        while (from[node] != -1) {
+            flow[from[node]][node] += mn_cap;
+            flow[node][from[node]] -= mn_cap;
+            node = from[node];
+        }
+        total_flow += mn_cap;
+    }
+
+    cout << "Maximum flow of network: " << total_flow;
+    return 0;
+}
