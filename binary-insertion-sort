@@ -62,6 +62,5 @@ int main()
     binaryInsertionSort(arr, n);
     cout << "Array after sorting: ";
     printArray(arr, n);
-
     return 0;
 }
